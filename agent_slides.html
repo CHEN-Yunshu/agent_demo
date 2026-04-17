@@ -16,8 +16,8 @@
   }
   .reveal { font-family: var(--r-main-font); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: var(--r-heading-font); }
-  .reveal .slides section { text-align: center; position: relative; overflow: hidden; }
-  .reveal .slides section > svg { display: block; width: 100%; height: auto; max-height: 720px; }
+  .reveal .slides section { text-align: center; position: relative; }
+  .reveal .slides section > svg { display: block; width: 1280px !important; height: 720px !important; max-width: none !important; max-height: none !important; margin: 0 auto; }
 
   /* Corner logos */
   .corner-logo {
@@ -1438,7 +1438,7 @@ Reveal.initialize({
   slideNumber: 'c/t',
   controls: true,
   progress: true,
-  center: true,
+  center: false,
   transition: 'slide',
   width: 1280,
   height: 720,
