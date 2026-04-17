@@ -16,8 +16,8 @@
   }
   .reveal { font-family: var(--r-main-font); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: var(--r-heading-font); }
-  .reveal .slides section { text-align: center; overflow: hidden; position: relative; }
-  .reveal .slides section svg { display: block; width: 100%; height: 100%; overflow: hidden; }
+  .reveal .slides section { text-align: center; position: relative; }
+  .reveal .slides section > svg { display: block; width: 1280px; height: 720px; margin: 0 auto; }
 
   /* Corner logos */
   .corner-logo {
@@ -1159,33 +1159,14 @@ async function runDemo(){
   btn.disabled=false;btn.textContent='▶ 再来一次';
 }
 
-// ===== Logos =====
-// 云舒 personal logo: cloud + 云舒 character + wave
-const YUNSHU_LOGO = `<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <linearGradient id="ysG" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#8b5cf6"/>
-      <stop offset="100%" stop-color="#06b6d4"/>
-    </linearGradient>
-  </defs>
-  <circle cx="40" cy="40" r="38" fill="#0f172a" stroke="url(#ysG)" stroke-width="2"/>
-  <path d="M 18,32 Q 24,26 32,30 Q 40,24 48,30 Q 56,26 62,32 L 62,36 Q 56,32 48,36 Q 40,30 32,36 Q 24,32 18,36 Z" fill="url(#ysG)" opacity="0.85"/>
-  <text x="40" y="58" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei',serif" font-size="20" font-weight="700" fill="white" letter-spacing="-1">云舒</text>
-  <path d="M 14,66 Q 20,62 26,66 Q 32,70 38,66 Q 44,62 50,66 Q 56,70 62,66 Q 66,63 66,66" fill="none" stroke="url(#ysG)" stroke-width="1.5" opacity="0.6"/>
-</svg>`;
-
 // 無用 platform logo (原图 with rounded frame)
 const WUYONG_LOGO = `<img src="wuyong_logo.png" alt="無用" style="width:56px;height:56px;object-fit:contain;background:white;border-radius:10px;padding:4px;box-sizing:border-box;border:1px solid #334155;">`;
 
-// Inject logos into every slide
+// Inject logo into every slide
 document.querySelectorAll('.reveal .slides section').forEach(s => {
-  const L = document.createElement('div');
-  L.className = 'corner-logo left';
-  L.innerHTML = YUNSHU_LOGO;
   const R = document.createElement('div');
   R.className = 'corner-logo right';
   R.innerHTML = WUYONG_LOGO;
-  s.appendChild(L);
   s.appendChild(R);
 });
 
