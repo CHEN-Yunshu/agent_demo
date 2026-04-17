@@ -16,8 +16,8 @@
   }
   .reveal { font-family: var(--r-main-font); }
   .reveal h1, .reveal h2, .reveal h3 { font-family: var(--r-heading-font); }
-  .reveal .slides section { text-align: center; position: relative; }
-  .reveal .slides section > svg { display: block; width: 1280px; height: 720px; margin: 0 auto; }
+  .reveal .slides section { text-align: center; position: relative; overflow: hidden; }
+  .reveal .slides section > svg { display: block; width: 100%; height: auto; max-height: 720px; }
 
   /* Corner logos */
   .corner-logo {
