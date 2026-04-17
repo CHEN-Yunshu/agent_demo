@@ -434,7 +434,146 @@
 </section>
 
 <!-- ============================== -->
-<!-- SLIDE 5: Medical AI Agent -->
+<!-- SLIDE 5: Rube Goldberg vs Agent -->
+<!-- ============================== -->
+<section>
+<svg viewBox="0 0 1280 720" overflow="hidden" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
+  <defs>
+    <filter id="srg"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.2"/></filter>
+    <marker id="arg" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#ef4444"/></marker>
+    <marker id="ago" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#10b981"/></marker>
+  </defs>
+
+  <text x="640" y="42" text-anchor="middle" font-size="28" font-weight="700" fill="white">传统自动化 vs AI Agent</text>
+  <text x="640" y="72" text-anchor="middle" font-size="14" fill="#94a3b8">一个是脆弱的机关连杆，一个是会思考的大脑</text>
+
+  <!-- ===== LEFT: Rube Goldberg ===== -->
+  <rect x="40" y="95" width="580" height="510" rx="16" fill="#1e293b" stroke="#ef4444" stroke-width="2" filter="url(#srg)"/>
+  <text x="330" y="130" text-anchor="middle" font-size="22" font-weight="700" fill="#ef4444">🎯 鲁布·戈德堡机械</text>
+  <text x="330" y="155" text-anchor="middle" font-size="13" fill="#94a3b8">传统自动化：N 个固定步骤，环环相扣</text>
+
+  <!-- Many tiny rigid steps arranged in a flow -->
+  <g font-size="20">
+    <!-- Row 1 -->
+    <rect x="70" y="180" width="60" height="50" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="100" y="215" text-anchor="middle">⚽</text>
+    <path d="M135,205 L155,205" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arg)"/>
+
+    <rect x="160" y="180" width="60" height="50" rx="8" fill="#0f172a" stroke="#ef4444" stroke-width="1"/>
+    <text x="190" y="215" text-anchor="middle">🎳</text>
+    <path d="M225,205 L245,205" stroke="#ef4444" stroke-width="1.5" marker-end="url(#arg)"/>
+
+    <!-- BROKEN step -->
+    <rect x="250" y="180" width="60" height="50" rx="8" fill="#450a0a" stroke="#ef4444" stroke-width="2"/>
+    <text x="280" y="215" text-anchor="middle">🪵</text>
+    <text x="280" y="172" text-anchor="middle" font-size="18" fill="#ef4444">❌</text>
+
+    <path d="M315,205 L335,205" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2"/>
+
+    <rect x="340" y="180" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="370" y="215" text-anchor="middle" opacity="0.4">🪣</text>
+    <path d="M405,205 L425,205" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <rect x="430" y="180" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="460" y="215" text-anchor="middle" opacity="0.4">⚙️</text>
+    <path d="M495,205 L515,205" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <rect x="520" y="180" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="550" y="215" text-anchor="middle" opacity="0.4">🔔</text>
+
+    <!-- Row 2 (zigzag) -->
+    <path d="M550,230 L550,255" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+    <path d="M550,255 L100,255" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+    <path d="M100,255 L100,275" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" marker-end="url(#arg)" opacity="0.5"/>
+
+    <rect x="70" y="280" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="100" y="315" text-anchor="middle" opacity="0.4">🕯️</text>
+    <path d="M135,305 L155,305" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <rect x="160" y="280" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="190" y="315" text-anchor="middle" opacity="0.4">🎈</text>
+    <path d="M225,305 L245,305" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <rect x="250" y="280" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="280" y="315" text-anchor="middle" opacity="0.4">🪃</text>
+    <path d="M315,305 L335,305" stroke="#475569" stroke-width="1.5" stroke-dasharray="3,2" opacity="0.5"/>
+
+    <rect x="340" y="280" width="60" height="50" rx="8" fill="#0f172a" stroke="#475569" stroke-width="1" opacity="0.5"/>
+    <text x="370" y="315" text-anchor="middle" opacity="0.4">🎯</text>
+  </g>
+
+  <!-- Warning callout -->
+  <rect x="80" y="370" width="500" height="65" rx="12" fill="#450a0a" stroke="#ef4444" stroke-width="1.5"/>
+  <text x="330" y="400" text-anchor="middle" font-size="15" fill="#fca5a5" font-weight="600">⚠️ 一个环节失败 → 整条流程崩溃</text>
+  <text x="330" y="420" text-anchor="middle" font-size="12" fill="#94a3b8">新场景 = 重新设计一条新的机关</text>
+
+  <!-- Characteristics -->
+  <g font-size="13" fill="#94a3b8">
+    <text x="80" y="465">❌ 每一步都硬编码，不可变通</text>
+    <text x="80" y="490">❌ 无法处理意料之外的情况</text>
+    <text x="80" y="515">❌ 调试困难，哪一环挂了都难找</text>
+    <text x="80" y="540">❌ 脆弱、刻板、无法复用</text>
+  </g>
+
+  <rect x="130" y="565" width="400" height="28" rx="14" fill="#991b1b"/>
+  <text x="330" y="585" text-anchor="middle" font-size="13" fill="white" font-weight="600">像一串多米诺，全靠人工摆好</text>
+
+  <!-- ===== RIGHT: Agent ===== -->
+  <rect x="660" y="95" width="580" height="510" rx="16" fill="#1e293b" stroke="#10b981" stroke-width="2" filter="url(#srg)"/>
+  <text x="950" y="130" text-anchor="middle" font-size="22" font-weight="700" fill="#10b981">🤖 AI Agent</text>
+  <text x="950" y="155" text-anchor="middle" font-size="13" fill="#94a3b8">灵活的大脑：几个原则，自己找路</text>
+
+  <!-- Simple loop -->
+  <!-- Goal -->
+  <rect x="820" y="185" width="260" height="44" rx="22" fill="#065f46" filter="url(#srg)"/>
+  <text x="950" y="213" text-anchor="middle" font-size="15" fill="white" font-weight="600">🎯 你的目标</text>
+
+  <line x1="950" y1="229" x2="950" y2="255" stroke="#10b981" stroke-width="2" marker-end="url(#ago)"/>
+
+  <!-- Core loop box -->
+  <rect x="740" y="260" width="420" height="180" rx="16" fill="#0f172a" stroke="#10b981" stroke-width="1.5"/>
+
+  <!-- Plan -->
+  <rect x="770" y="280" width="150" height="40" rx="8" fill="#059669" filter="url(#srg)"/>
+  <text x="845" y="305" text-anchor="middle" font-size="13" fill="white" font-weight="600">🗺️ 规划</text>
+  <line x1="920" y1="300" x2="970" y2="300" stroke="#10b981" stroke-width="2" marker-end="url(#ago)"/>
+
+  <!-- Act -->
+  <rect x="980" y="280" width="150" height="40" rx="8" fill="#059669" filter="url(#srg)"/>
+  <text x="1055" y="305" text-anchor="middle" font-size="13" fill="white" font-weight="600">⚡ 执行</text>
+  <line x1="1055" y1="320" x2="1055" y2="360" stroke="#10b981" stroke-width="2" marker-end="url(#ago)"/>
+
+  <!-- Reflect -->
+  <rect x="980" y="365" width="150" height="40" rx="8" fill="#059669" filter="url(#srg)"/>
+  <text x="1055" y="390" text-anchor="middle" font-size="13" fill="white" font-weight="600">🔍 反思</text>
+
+  <!-- Loop back to Plan: curve -->
+  <path d="M 980,385 Q 845,400 845,320" fill="none" stroke="#10b981" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#ago)"/>
+  <text x="870" y="410" text-anchor="middle" font-size="11" fill="#10b981" font-style="italic">出错？自己纠正</text>
+
+  <!-- Animated particle in loop -->
+  <circle r="5" fill="#fbbf24">
+    <animateMotion path="M845,300 L1055,300 L1055,385 Q 845,400 845,300" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;1;1;1;0.3" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <line x1="950" y1="440" x2="950" y2="465" stroke="#10b981" stroke-width="2" marker-end="url(#ago)"/>
+
+  <!-- Output -->
+  <rect x="820" y="468" width="260" height="36" rx="10" fill="#065f46"/>
+  <text x="950" y="491" text-anchor="middle" font-size="14" fill="white" font-weight="600">✅ 完成任务</text>
+
+  <!-- Characteristics -->
+  <g font-size="13" fill="#d1fae5">
+    <text x="700" y="540">✅ 自主规划路径，不需预先写死</text>
+    <text x="700" y="565">✅ 遇到问题自动纠错、换方案</text>
+    <text x="700" y="590">✅ 同一个 Agent 适应不同场景</text>
+  </g>
+</svg>
+</section>
+
+<!-- ============================== -->
+<!-- SLIDE 6: Medical AI Agent -->
 <!-- ============================== -->
 <section>
 <svg viewBox="0 0 1280 720" overflow="hidden" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif">
