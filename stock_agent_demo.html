@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stock Research Agent Demo</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+  h1 { font-size: 28px; text-align: center; margin-bottom: 6px; }
+  .subtitle { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 24px; }
+
+  /* Input area */
+  .input-area {
+    display: flex; gap: 12px; margin-bottom: 24px;
+    background: #1e293b; padding: 16px; border-radius: 12px;
+    border: 1px solid #334155;
+  }
+  .input-area input {
+    flex: 1; background: #0f172a; border: 1px solid #475569; border-radius: 8px;
+    padding: 12px 16px; color: white; font-size: 15px; outline: none;
+  }
+  .input-area input:focus { border-color: #8b5cf6; }
+  .input-area input::placeholder { color: #64748b; }
+  .input-area button {
+    background: #8b5cf6; color: white; border: none; border-radius: 8px;
+    padding: 12px 24px; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .input-area button:hover { background: #7c3aed; }
+  .input-area button:disabled { background: #475569; cursor: not-allowed; }
+
+  /* Steps timeline */
+  .steps {
+    display: flex; gap: 8px; margin-bottom: 20px;
+    background: #1e293b; padding: 12px 16px; border-radius: 10px;
+    border: 1px solid #334155;
+  }
+  .step-indicator {
+    flex: 1; text-align: center; padding: 8px; border-radius: 8px;
+    font-size: 13px; font-weight: 600; color: #475569;
+    background: #0f172a; transition: all 0.5s;
+  }
+  .step-indicator.active { color: #fbbf24; background: #292524; border: 1px solid #f59e0b; }
+  .step-indicator.done { color: #10b981; background: #052e16; border: 1px solid #10b981; }
+
+  /* Tool cards */
+  .tools-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 20px;
+  }
+  .tool-card {
+    background: #1e293b; border-radius: 12px; padding: 16px;
+    border: 1.5px solid #334155; transition: all 0.5s; position: relative;
+    overflow: hidden;
+  }
+  .tool-card.active { border-color: var(--tool-color); }
+  .tool-card.done { border-color: var(--tool-color); }
+  .tool-card .icon { font-size: 28px; margin-bottom: 8px; }
+  .tool-card .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .tool-card .desc { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+  .tool-card .status {
+    font-size: 11px; padding: 4px 8px; border-radius: 4px;
+    background: #0f172a; display: inline-block;
+  }
+  .tool-card .progress-bar {
+    position: absolute; bottom: 0; left: 0; height: 3px;
+    background: var(--tool-color); width: 0; transition: width 1.5s ease;
+  }
+  .tool-card.active .progress-bar { width: 100%; }
+  .tool-card.done .progress-bar { width: 100%; }
+  .tool-card .data-preview {
+    margin-top: 10px; font-size: 11px; color: #94a3b8;
+    background: #0f172a; padding: 8px; border-radius: 6px;
+    display: none; max-height: 80px; overflow: hidden;
+  }
+  .tool-card.done .data-preview { display: block; }
+
+  .tool-card:nth-child(1) { --tool-color: #3b82f6; }
+  .tool-card:nth-child(1) .name { color: #3b82f6; }
+  .tool-card:nth-child(2) { --tool-color: #8b5cf6; }
+  .tool-card:nth-child(2) .name { color: #8b5cf6; }
+  .tool-card:nth-child(3) { --tool-color: #10b981; }
+  .tool-card:nth-child(3) .name { color: #10b981; }
+  .tool-card:nth-child(4) { --tool-color: #f59e0b; }
+  .tool-card:nth-child(4) .name { color: #f59e0b; }
+
+  /* Verify section */
+  .verify-section {
+    background: #1e293b; border-radius: 12px; padding: 16px;
+    border: 1.5px solid #334155; margin-bottom: 20px;
+    display: none;
+  }
+  .verify-section.visible { display: block; }
+  .verify-section h3 { font-size: 15px; color: #fbbf24; margin-bottom: 12px; }
+  .verify-item {
+    display: flex; align-items: center; gap: 10px; padding: 6px 0;
+    font-size: 13px; opacity: 0; transition: opacity 0.5s;
+  }
+  .verify-item.visible { opacity: 1; }
+  .verify-item .check { font-size: 16px; }
+
+  /* Report section */
+  .report-section {
+    background: #1e293b; border-radius: 12px; padding: 20px;
+    border: 1.5px solid #10b981; margin-bottom: 20px;
+    display: none;
+  }
+  .report-section.visible { display: block; }
+  .report-section h3 { font-size: 16px; color: #10b981; margin-bottom: 16px; }
+
+  .report-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  }
+  .report-card {
+    background: #0f172a; border-radius: 10px; padding: 14px;
+    border: 1px solid #334155;
+  }
+  .report-card h4 { font-size: 13px; margin-bottom: 8px; font-weight: 600; }
+  .report-card p { font-size: 12px; color: #94a3b8; line-height: 1.6; }
+  .report-card .big-number { font-size: 32px; font-weight: 700; }
+
+  /* Thinking dots */
+  .thinking { display: inline-block; }
+  .thinking span {
+    animation: blink 1.4s infinite both;
+    font-size: 18px;
+  }
+  .thinking span:nth-child(2) { animation-delay: 0.2s; }
+  .thinking span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink {
+    0%, 80%, 100% { opacity: 0; }
+    40% { opacity: 1; }
+  }
+
+  /* Log area */
+  .log-area {
+    background: #0f172a; border-radius: 10px; padding: 14px;
+    border: 1px solid #334155; margin-bottom: 20px;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px; max-height: 160px; overflow-y: auto;
+    display: none;
+  }
+  .log-area.visible { display: block; }
+  .log-area .log-line { padding: 2px 0; }
+  .log-area .log-line.plan { color: #a78bfa; }
+  .log-area .log-line.exec { color: #fbbf24; }
+  .log-area .log-line.verify { color: #06b6d4; }
+  .log-area .log-line.done { color: #10b981; }
+  .log-area .log-line.think { color: #64748b; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🤖 Stock Research Agent</h1>
+  <p class="subtitle">输入一个问题，观察 Agent 如何自动调用工具、推理、交付报告</p>
+
+  <!-- Input -->
+  <div class="input-area">
+    <input id="queryInput" type="text" placeholder="例: 帮我分析一下特斯拉最近值不值得买" value="帮我分析一下特斯拉 TSLA 最近值不值得买">
+    <button id="runBtn" onclick="runAgent()">▶ 开始调研</button>
+  </div>
+
+  <!-- Steps -->
+  <div class="steps">
+    <div class="step-indicator" id="step1">🗺️ 规划</div>
+    <div class="step-indicator" id="step2">⚡ 调用工具</div>
+    <div class="step-indicator" id="step3">🔍 交叉验证</div>
+    <div class="step-indicator" id="step4">🧠 综合推理</div>
+    <div class="step-indicator" id="step5">📋 交付报告</div>
+  </div>
+
+  <!-- Log -->
+  <div class="log-area" id="logArea"></div>
+
+  <!-- Tool cards -->
+  <div class="tools-grid" id="toolsGrid">
+    <div class="tool-card" id="tool1">
+      <div class="icon">📈</div>
+      <div class="name">行情 API</div>
+      <div class="desc">股价走势 · 成交量 · 52周高低</div>
+      <div class="status" id="tool1Status">待执行</div>
+      <div class="data-preview" id="tool1Data"></div>
+      <div class="progress-bar"></div>
+    </div>
+    <div class="tool-card" id="tool2">
+      <div class="icon">📰</div>
+      <div class="name">新闻搜索</div>
+      <div class="desc">重大事件 · 市场情绪 · 舆情分析</div>
+      <div class="status" id="tool2Status">待执行</div>
+      <div class="data-preview" id="tool2Data"></div>
+      <div class="progress-bar"></div>
+    </div>
+    <div class="tool-card" id="tool3">
+      <div class="icon">📊</div>
+      <div class="name">财报数据</div>
+      <div class="desc">营收利润 · PE估值 · 同行对比</div>
+      <div class="status" id="tool3Status">待执行</div>
+      <div class="data-preview" id="tool3Data"></div>
+      <div class="progress-bar"></div>
+    </div>
+    <div class="tool-card" id="tool4">
+      <div class="icon">🧑‍💼</div>
+      <div class="name">分析师评级</div>
+      <div class="desc">买入/卖出 · 目标价 · 机构观点</div>
+      <div class="status" id="tool4Status">待执行</div>
+      <div class="data-preview" id="tool4Data"></div>
+      <div class="progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- Verify -->
+  <div class="verify-section" id="verifySection">
+    <h3>🔍 交叉验证</h3>
+    <div class="verify-item" id="v1"><span class="check">⏳</span> <span>股价 vs 分析师目标价：差距是否合理？</span></div>
+    <div class="verify-item" id="v2"><span class="check">⏳</span> <span>PE 估值 vs 行业均值：是否偏高？</span></div>
+    <div class="verify-item" id="v3"><span class="check">⏳</span> <span>新闻情绪 vs 基本面：是否矛盾？</span></div>
+    <div class="verify-item" id="v4"><span class="check">⏳</span> <span>分析师意见一致性：分歧大不大？</span></div>
+  </div>
+
+  <!-- Report -->
+  <div class="report-section" id="reportSection">
+    <h3>📋 调研报告 — <span id="reportSymbol">TSLA</span></h3>
+    <div class="report-grid">
+      <div class="report-card">
+        <h4 style="color:#3b82f6">📈 走势判断</h4>
+        <p id="reportTrend"></p>
+      </div>
+      <div class="report-card">
+        <h4 style="color:#10b981">💰 基本面</h4>
+        <p id="reportFundamental"></p>
+      </div>
+      <div class="report-card">
+        <h4 style="color:#f59e0b">⚠️ 风险提示</h4>
+        <p id="reportRisk"></p>
+      </div>
+      <div class="report-card">
+        <h4 style="color:#8b5cf6">💡 操作建议</h4>
+        <p id="reportAction"></p>
+      </div>
+      <div class="report-card">
+        <h4 style="color:#06b6d4">📊 数据来源</h4>
+        <p id="reportSources"></p>
+      </div>
+      <div class="report-card" style="text-align:center">
+        <h4 style="color:#f59e0b">综合置信度</h4>
+        <div class="big-number" style="color:#f59e0b" id="reportConfidence">—</div>
+        <p style="font-size:11px; margin-top:4px">基于 4 个数据源</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mock data for different stocks
+const MOCK_DATA = {
+  TSLA: {
+    stock: { price: 252.30, high52: 488.54, low52: 138.80, change30d: "+12.3%", volume: "98.2M", cap: "$805B" },
+    news: [
+      "Tesla Q1 deliveries beat expectations at 495K vehicles",
+      "Elon Musk refocuses on Tesla after DOGE role ends",
+      "Tesla FSD v13 receives regulatory approval in China",
+      "EV competition intensifies: BYD surpasses Tesla in global sales",
+      "Tesla Robotaxi launch delayed to Q3 2026"
+    ],
+    financials: { pe: 65.2, fwdPe: 48.5, revenue: "$97.7B", margin: "13.0%", debt: "11.2%" },
+    ratings: { mean: 285, high: 450, low: 120, rec: "Hold", analysts: 42 },
+    report: {
+      trend: "短期：技术面偏弱，30日涨幅+12.3%后面临回调压力，250-260区间震荡。\n\n中长期：FSD v13获批利好，但Robotaxi延迟是负面因素。若Q2交付超预期，有望突破300。",
+      fundamental: "营收 $97.7B，利润率 13.0%，同比改善。\n\nPE 65.2x 显著高于行业均值（汽车行业约15x），但低于历史均值95x。\n\n前瞻PE 48.5x反映市场预期增长。",
+      risk: "• 估值偏高，PE 65x 远超传统车企\n• BYD全球销量已超越特斯拉\n• Robotaxi 商业化时间不确定\n• 宏观利率环境对成长股不利",
+      action: "评级：谨慎乐观\n\n建议分批建仓，仓位控制在 ≤10%。\n\n入场区间：$230-240\n止损位：$200\n目标位：$300-320",
+      sources: "Yahoo Finance (实时行情)\nSEC Filing (10-K/10-Q)\nReuters / Bloomberg (新闻)\n42位华尔街分析师评级",
+      confidence: 68
+    }
+  },
+  AAPL: {
+    stock: { price: 198.50, high52: 237.49, low52: 164.08, change30d: "+5.1%", volume: "54.3M", cap: "$3.04T" },
+    news: [
+      "Apple Vision Pro 2 rumored for late 2026",
+      "iPhone 17 Air leaked specs suggest thinnest ever design",
+      "Apple AI features expand to more countries",
+      "Apple stock hits resistance at $200 level",
+      "Services revenue reaches new record high"
+    ],
+    financials: { pe: 31.2, fwdPe: 28.5, revenue: "$391B", margin: "26.3%", debt: "145%" },
+    ratings: { mean: 215, high: 260, low: 165, rec: "Buy", analysts: 38 },
+    report: {
+      trend: "短期：$200整数关口压力明显，5日均线走平。\n\n中长期：AI功能和服务收入增长是核心驱动力，Vision Pro生态逐步完善。",
+      fundamental: "营收$391B，利润率26.3%，现金流充沛。\n\nPE 31.2x 处于历史中位水平。\n\n服务业务占比持续提升，毛利率结构改善。",
+      risk: "• 中国市场份额持续下滑\n• AI功能落后于竞争对手\n• 硬件创新周期放缓\n• 反垄断监管风险",
+      action: "评级：买入\n\n核心资产，适合长期持有。\n\n入场区间：$190-195\n止损位：$175\n目标位：$230-250",
+      sources: "Yahoo Finance (实时行情)\nSEC Filing (10-K/10-Q)\nBloomberg (新闻)\n38位华尔街分析师评级",
+      confidence: 78
+    }
+  },
+  NVDA: {
+    stock: { price: 118.20, high52: 153.13, low52: 75.61, change30d: "+18.7%", volume: "312M", cap: "$2.89T" },
+    news: [
+      "NVIDIA Blackwell GPUs see record demand from hyperscalers",
+      "Jensen Huang: AI infrastructure spending to reach $1T",
+      "NVIDIA faces potential China export restrictions tightening",
+      "New gaming GPU lineup announced at Computex",
+      "NVIDIA partners with major hospitals for medical AI"
+    ],
+    financials: { pe: 52.8, fwdPe: 32.1, revenue: "$130B", margin: "55.8%", debt: "29%" },
+    ratings: { mean: 155, high: 200, low: 100, rec: "Strong Buy", analysts: 48 },
+    report: {
+      trend: "短期：Blackwell需求超预期，强势上涨后短线承压。\n\n中长期：AI基础设施建设处于早期，数据中心收入仍有3-5年高增长。",
+      fundamental: "营收$130B (YoY+114%)，利润率55.8%极其优秀。\n\n前瞻PE 32x考虑增速后合理。\n\nAI GPU市占率超90%，护城河深厚。",
+      risk: "• 中国出口管制收紧\n• 大客户自研芯片风险(Google TPU等)\n• 估值已包含大量增长预期\n• 半导体周期性风险",
+      action: "评级：强烈推荐\n\nAI时代核心资产，逢低买入。\n\n入场区间：$105-110\n止损位：$90\n目标位：$155-180",
+      sources: "Yahoo Finance (实时行情)\nSEC Filing (10-K/10-Q)\nReuters / Bloomberg (新闻)\n48位华尔街分析师评级",
+      confidence: 82
+    }
+  }
+};
+
+// Default fallback
+const DEFAULT_DATA = MOCK_DATA.TSLA;
+
+function parseSymbol(query) {
+  const symbols = Object.keys(MOCK_DATA);
+  for (const s of symbols) {
+    if (query.toUpperCase().includes(s)) return s;
+  }
+  if (query.includes('特斯拉')) return 'TSLA';
+  if (query.includes('苹果')) return 'AAPL';
+  if (query.includes('英伟达')) return 'NVDA';
+  return 'TSLA';
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function log(text, cls = '') {
+  const area = document.getElementById('logArea');
+  area.classList.add('visible');
+  const line = document.createElement('div');
+  line.className = 'log-line ' + cls;
+  line.textContent = `[${new Date().toLocaleTimeString()}] ${text}`;
+  area.appendChild(line);
+  area.scrollTop = area.scrollHeight;
+}
+
+function setStep(n) {
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById('step' + i);
+    el.className = 'step-indicator' + (i < n ? ' done' : i === n ? ' active' : '');
+  }
+}
+
+async function runAgent() {
+  const query = document.getElementById('queryInput').value.trim();
+  if (!query) return;
+
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ 运行中...';
+
+  // Reset
+  for (let i = 1; i <= 4; i++) {
+    const card = document.getElementById('tool' + i);
+    card.className = 'tool-card';
+    document.getElementById('tool' + i + 'Status').textContent = '待执行';
+    document.getElementById('tool' + i + 'Data').innerHTML = '';
+  }
+  document.getElementById('verifySection').className = 'verify-section';
+  document.getElementById('reportSection').className = 'report-section';
+  document.getElementById('logArea').innerHTML = '';
+  for (let i = 1; i <= 4; i++) {
+    document.getElementById('v' + i).className = 'verify-item';
+    document.getElementById('v' + i).querySelector('.check').textContent = '⏳';
+  }
+
+  const symbol = parseSymbol(query);
+  const data = MOCK_DATA[symbol] || DEFAULT_DATA;
+
+  // ===== STEP 1: Plan =====
+  setStep(1);
+  log(`📝 收到任务: "${query}"`, 'plan');
+  await sleep(600);
+  log(`🗺️ 规划: 识别目标股票 → ${symbol}`, 'plan');
+  await sleep(400);
+  log(`🗺️ 规划: 需要调用 4 个工具获取数据`, 'plan');
+  await sleep(400);
+  log(`   1. get_stock_data("${symbol}")  → 行情数据`, 'think');
+  await sleep(200);
+  log(`   2. search_news("${symbol}")     → 新闻舆情`, 'think');
+  await sleep(200);
+  log(`   3. get_financials("${symbol}")   → 财报数据`, 'think');
+  await sleep(200);
+  log(`   4. get_ratings("${symbol}")      → 分析师评级`, 'think');
+  await sleep(600);
+
+  // ===== STEP 2: Execute tools =====
+  setStep(2);
+
+  const toolConfigs = [
+    { id: 1, name: 'get_stock_data', delay: 1200, dataHtml:
+      `<b>$${data.stock.price}</b> | 30天: ${data.stock.change30d}<br>52周: $${data.stock.low52} ~ $${data.stock.high52}<br>市值: ${data.stock.cap}` },
+    { id: 2, name: 'search_news', delay: 1500, dataHtml:
+      data.news.slice(0, 3).map(n => `• ${n.substring(0, 45)}...`).join('<br>') },
+    { id: 3, name: 'get_financials', delay: 1300, dataHtml:
+      `PE: ${data.financials.pe}x | 前瞻PE: ${data.financials.fwdPe}x<br>营收: ${data.financials.revenue} | 利润率: ${data.financials.margin}` },
+    { id: 4, name: 'get_analyst_ratings', delay: 1100, dataHtml:
+      `评级: <b>${data.ratings.rec}</b> (${data.ratings.analysts}位分析师)<br>目标价: $${data.ratings.low} ~ $${data.ratings.mean} ~ $${data.ratings.high}` },
+  ];
+
+  // Run tools with staggered start
+  for (const tool of toolConfigs) {
+    const card = document.getElementById('tool' + tool.id);
+    const status = document.getElementById('tool' + tool.id + 'Status');
+    const dataEl = document.getElementById('tool' + tool.id + 'Data');
+
+    log(`⚡ 调用 ${tool.name}("${symbol}")...`, 'exec');
+    card.classList.add('active');
+    status.textContent = '🔄 执行中...';
+    status.style.color = '#fbbf24';
+
+    await sleep(tool.delay);
+
+    card.classList.remove('active');
+    card.classList.add('done');
+    status.textContent = '✅ 完成';
+    status.style.color = '#10b981';
+    dataEl.innerHTML = tool.dataHtml;
+    log(`   ✅ ${tool.name} 返回数据成功`, 'done');
+    await sleep(300);
+  }
+
+  await sleep(500);
+
+  // ===== STEP 3: Verify =====
+  setStep(3);
+  const verifySection = document.getElementById('verifySection');
+  verifySection.classList.add('visible');
+  log(`🔍 开始交叉验证...`, 'verify');
+
+  const verifyItems = [
+    { id: 'v1', result: data.stock.price < data.ratings.mean ? '✅' : '⚠️',
+      detail: `当前 $${data.stock.price} vs 目标 $${data.ratings.mean} → ${data.stock.price < data.ratings.mean ? '有上涨空间' : '已接近目标价'}` },
+    { id: 'v2', result: data.financials.pe < 40 ? '✅' : '⚠️',
+      detail: `PE ${data.financials.pe}x → ${data.financials.pe < 40 ? '估值合理' : '估值偏高，需关注增速'}` },
+    { id: 'v3', result: '✅', detail: '新闻面与基本面方向基本一致' },
+    { id: 'v4', result: data.ratings.analysts > 30 ? '✅' : '⚠️',
+      detail: `${data.ratings.analysts}位分析师，共识: ${data.ratings.rec}` },
+  ];
+
+  for (const v of verifyItems) {
+    await sleep(700);
+    const el = document.getElementById(v.id);
+    el.classList.add('visible');
+    el.querySelector('.check').textContent = v.result;
+    el.querySelector('span:last-child').textContent = v.detail;
+    log(`   ${v.result} ${v.detail}`, 'verify');
+  }
+
+  await sleep(800);
+
+  // ===== STEP 4: Synthesize =====
+  setStep(4);
+  log(`🧠 综合推理，生成调研报告...`, 'plan');
+  await sleep(2000);
+
+  // ===== STEP 5: Deliver =====
+  setStep(5);
+  log(`📋 报告生成完毕！`, 'done');
+
+  const report = data.report;
+  document.getElementById('reportSymbol').textContent = symbol;
+  document.getElementById('reportTrend').textContent = report.trend;
+  document.getElementById('reportFundamental').textContent = report.fundamental;
+  document.getElementById('reportRisk').textContent = report.risk;
+  document.getElementById('reportAction').textContent = report.action;
+  document.getElementById('reportSources').textContent = report.sources;
+  document.getElementById('reportConfidence').textContent = report.confidence + '%';
+
+  const reportSection = document.getElementById('reportSection');
+  reportSection.classList.add('visible');
+
+  btn.disabled = false;
+  btn.textContent = '▶ 重新调研';
+}
+
+// Enter key
+document.getElementById('queryInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runAgent();
+});
+</script>
+</body>
+</html>

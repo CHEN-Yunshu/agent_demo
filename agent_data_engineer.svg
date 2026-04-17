@@ -1,0 +1,267 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="blueG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="purpleG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="greenG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="orangeG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    <linearGradient id="redG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#dc2626"/>
+    </linearGradient>
+    <linearGradient id="cyanG" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#64748b"/>
+    </marker>
+    <marker id="arrCyan" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#06b6d4"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#10b981"/>
+    </marker>
+    <!-- Grid pattern -->
+    <pattern id="grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e3a5f" stroke-width="0.3" opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="url(#bgGrad)"/>
+  <rect width="1200" height="800" fill="url(#grid)"/>
+
+  <!-- Title -->
+  <text x="600" y="42" text-anchor="middle" font-size="28" font-weight="700" fill="white">Data Engineer + AI Agent: Daily Workflow</text>
+  <text x="600" y="68" text-anchor="middle" font-size="14" fill="#94a3b8">How Claude Code / AI Agents Augment Data Engineering</text>
+
+  <!-- ==================== LEFT: User Layer ==================== -->
+  <g id="userLayer">
+    <rect x="40" y="95" width="240" height="140" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="160" y="122" text-anchor="middle" font-size="16" font-weight="600" fill="#3b82f6">Data Engineer</text>
+
+    <rect x="60" y="140" width="90" height="38" rx="6" fill="#0f172a"/>
+    <text x="105" y="163" text-anchor="middle" font-size="11" fill="#10b981">Terminal</text>
+
+    <rect x="170" y="140" width="90" height="38" rx="6" fill="#0f172a"/>
+    <text x="215" y="163" text-anchor="middle" font-size="11" fill="#fbbf24">IDE</text>
+
+    <rect x="60" y="188" width="200" height="34" rx="6" fill="#0f172a"/>
+    <text x="160" y="210" text-anchor="middle" font-size="11" fill="#a78bfa">Natural Language / Commands</text>
+  </g>
+
+  <!-- Arrow: User -> Agent Core -->
+  <path d="M280,165 L370,165" stroke="#64748b" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+  <text x="325" y="155" text-anchor="middle" font-size="10" fill="#94a3b8">goal / task</text>
+
+  <!-- ==================== CENTER: Agent Core ==================== -->
+  <g id="agentCore">
+    <rect x="380" y="90" width="440" height="300" rx="16" fill="#1e293b" stroke="#8b5cf6" stroke-width="2.5" filter="url(#glow)"/>
+    <text x="600" y="118" text-anchor="middle" font-size="18" font-weight="700" fill="#8b5cf6">Agent Core (Claude Code)</text>
+
+    <!-- Plan -->
+    <rect x="420" y="138" width="160" height="48" rx="10" fill="url(#purpleG)" filter="url(#shadow)"/>
+    <text x="500" y="157" text-anchor="middle" font-size="12" fill="white" font-weight="600">Plan</text>
+    <text x="500" y="174" text-anchor="middle" font-size="10" fill="#e0e7ff">Break down task</text>
+
+    <!-- Reason -->
+    <rect x="620" y="138" width="160" height="48" rx="10" fill="url(#blueG)" filter="url(#shadow)"/>
+    <text x="700" y="157" text-anchor="middle" font-size="12" fill="white" font-weight="600">Reason</text>
+    <text x="700" y="174" text-anchor="middle" font-size="10" fill="#bfdbfe">Analyze &amp; decide</text>
+
+    <!-- Act -->
+    <rect x="420" y="205" width="160" height="48" rx="10" fill="url(#orangeG)" filter="url(#shadow)"/>
+    <text x="500" y="224" text-anchor="middle" font-size="12" fill="white" font-weight="600">Act</text>
+    <text x="500" y="241" text-anchor="middle" font-size="10" fill="#fef3c7">Execute tools &amp; code</text>
+
+    <!-- Reflect -->
+    <rect x="620" y="205" width="160" height="48" rx="10" fill="url(#greenG)" filter="url(#shadow)"/>
+    <text x="700" y="224" text-anchor="middle" font-size="12" fill="white" font-weight="600">Reflect</text>
+    <text x="700" y="241" text-anchor="middle" font-size="10" fill="#d1fae5">Verify &amp; iterate</text>
+
+    <!-- Internal arrows: Plan->Reason->Act->Reflect->Plan loop -->
+    <path d="M580,162 L620,162" stroke="#e2e8f0" stroke-width="1.2" marker-end="url(#arr)"/>
+    <path d="M700,186 L700,205" stroke="#e2e8f0" stroke-width="1.2" marker-end="url(#arr)"/>
+    <path d="M620,229 L580,229" stroke="#e2e8f0" stroke-width="1.2" marker-end="url(#arr)"/>
+    <path d="M500,205 L500,186" stroke="#e2e8f0" stroke-width="1.2" marker-end="url(#arr)"/>
+    <!-- Circular label -->
+    <text x="600" y="200" text-anchor="middle" font-size="18" fill="#e2e8f0">&#x21bb;</text>
+
+    <!-- Memory bar -->
+    <rect x="420" y="272" width="380" height="36" rx="18" fill="#0f172a" stroke="#0ea5e9" stroke-width="1.5"/>
+    <text x="600" y="295" text-anchor="middle" font-size="12" fill="#06b6d4" font-weight="500">Context Memory &amp; Conversation History</text>
+
+    <!-- Workflow controller bar -->
+    <rect x="420" y="322" width="380" height="28" rx="14" fill="#374151"/>
+    <text x="600" y="341" text-anchor="middle" font-size="11" fill="#e2e8f0">Workflow Controller &amp; Tool Router</text>
+    <!-- Animated progress -->
+    <rect x="430" y="350" width="360" height="3" rx="1" fill="#1e293b"/>
+    <rect x="430" y="350" width="100" height="3" rx="1" fill="#10b981">
+      <animate attributeName="width" values="0;360;0" dur="5s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- ==================== RIGHT: Tools & Systems ==================== -->
+  <g id="toolsLayer">
+    <rect x="870" y="90" width="290" height="300" rx="12" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
+    <text x="1015" y="118" text-anchor="middle" font-size="16" font-weight="600" fill="#f59e0b">Tools &amp; Integrations</text>
+
+    <!-- Tool cards -->
+    <rect x="890" y="132" width="120" height="44" rx="6" fill="#0f172a"/>
+    <text x="950" y="152" text-anchor="middle" font-size="11" fill="#3b82f6" font-weight="500">SQL Engines</text>
+    <text x="950" y="168" text-anchor="middle" font-size="9" fill="#64748b">BQ, Snowflake, PG</text>
+
+    <rect x="1020" y="132" width="120" height="44" rx="6" fill="#0f172a"/>
+    <text x="1080" y="152" text-anchor="middle" font-size="11" fill="#8b5cf6" font-weight="500">Git / CI-CD</text>
+    <text x="1080" y="168" text-anchor="middle" font-size="9" fill="#64748b">GitHub, dbt, Airflow</text>
+
+    <rect x="890" y="188" width="120" height="44" rx="6" fill="#0f172a"/>
+    <text x="950" y="208" text-anchor="middle" font-size="11" fill="#10b981" font-weight="500">File System</text>
+    <text x="950" y="224" text-anchor="middle" font-size="9" fill="#64748b">Read, Write, Glob</text>
+
+    <rect x="1020" y="188" width="120" height="44" rx="6" fill="#0f172a"/>
+    <text x="1080" y="208" text-anchor="middle" font-size="11" fill="#f59e0b" font-weight="500">APIs &amp; MCP</text>
+    <text x="1080" y="224" text-anchor="middle" font-size="9" fill="#64748b">REST, gRPC, Plugins</text>
+
+    <rect x="890" y="244" width="120" height="44" rx="6" fill="#0f172a"/>
+    <text x="950" y="264" text-anchor="middle" font-size="11" fill="#ef4444" font-weight="500">Monitoring</text>
+    <text x="950" y="280" text-anchor="middle" font-size="9" fill="#64748b">Logs, Alerts, Dash</text>
+
+    <rect x="1020" y="244" width="120" height="44" rx="6" fill="#0f172a"/>
+    <text x="1080" y="264" text-anchor="middle" font-size="11" fill="#06b6d4" font-weight="500">Documentation</text>
+    <text x="1080" y="280" text-anchor="middle" font-size="9" fill="#64748b">Confluence, Notion</text>
+
+    <!-- Shell/Terminal -->
+    <rect x="890" y="300" width="250" height="36" rx="6" fill="#0f172a"/>
+    <text x="1015" y="323" text-anchor="middle" font-size="11" fill="#a3e635" font-weight="500">Shell / Bash Execution</text>
+    <text x="1015" y="334" text-anchor="middle" font-size="9" fill="#64748b">pip, docker, kubectl, terraform</text>
+  </g>
+
+  <!-- Arrow: Agent Core -> Tools -->
+  <path d="M820,240 L870,240" stroke="#64748b" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+
+  <!-- ==================== BOTTOM: Use Case Cards ==================== -->
+  <text x="600" y="430" text-anchor="middle" font-size="20" font-weight="700" fill="white">Daily Use Cases</text>
+
+  <!-- Row 1 -->
+  <g transform="translate(40, 450)">
+    <rect width="220" height="130" rx="10" fill="#1e293b" stroke="#3b82f6" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="5" rx="3" fill="url(#blueG)"/>
+    <text x="110" y="30" text-anchor="middle" font-size="14" font-weight="600" fill="#3b82f6">SQL &amp; Query</text>
+    <text x="110" y="52" text-anchor="middle" font-size="11" fill="#94a3b8">Write &amp; optimize SQL</text>
+    <text x="110" y="70" text-anchor="middle" font-size="11" fill="#94a3b8">Debug failing queries</text>
+    <text x="110" y="88" text-anchor="middle" font-size="11" fill="#94a3b8">Explain complex joins</text>
+    <text x="110" y="106" text-anchor="middle" font-size="11" fill="#94a3b8">Generate test data</text>
+    <text x="110" y="122" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"write a query to find..."</text>
+  </g>
+
+  <g transform="translate(280, 450)">
+    <rect width="220" height="130" rx="10" fill="#1e293b" stroke="#8b5cf6" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="5" rx="3" fill="url(#purpleG)"/>
+    <text x="110" y="30" text-anchor="middle" font-size="14" font-weight="600" fill="#8b5cf6">Pipeline Dev</text>
+    <text x="110" y="52" text-anchor="middle" font-size="11" fill="#94a3b8">Build dbt models</text>
+    <text x="110" y="70" text-anchor="middle" font-size="11" fill="#94a3b8">Create Airflow DAGs</text>
+    <text x="110" y="88" text-anchor="middle" font-size="11" fill="#94a3b8">Schema migrations</text>
+    <text x="110" y="106" text-anchor="middle" font-size="11" fill="#94a3b8">Data validation rules</text>
+    <text x="110" y="122" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"add a new staging model..."</text>
+  </g>
+
+  <g transform="translate(520, 450)">
+    <rect width="220" height="130" rx="10" fill="#1e293b" stroke="#10b981" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="5" rx="3" fill="url(#greenG)"/>
+    <text x="110" y="30" text-anchor="middle" font-size="14" font-weight="600" fill="#10b981">Debug &amp; Fix</text>
+    <text x="110" y="52" text-anchor="middle" font-size="11" fill="#94a3b8">Trace pipeline failures</text>
+    <text x="110" y="70" text-anchor="middle" font-size="11" fill="#94a3b8">Read &amp; analyze logs</text>
+    <text x="110" y="88" text-anchor="middle" font-size="11" fill="#94a3b8">Data quality issues</text>
+    <text x="110" y="106" text-anchor="middle" font-size="11" fill="#94a3b8">Fix schema drift</text>
+    <text x="110" y="122" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"why is this DAG failing..."</text>
+  </g>
+
+  <g transform="translate(760, 450)">
+    <rect width="220" height="130" rx="10" fill="#1e293b" stroke="#f59e0b" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="5" rx="3" fill="url(#orangeG)"/>
+    <text x="110" y="30" text-anchor="middle" font-size="14" font-weight="600" fill="#f59e0b">Code Review &amp; PR</text>
+    <text x="110" y="52" text-anchor="middle" font-size="11" fill="#94a3b8">Review pull requests</text>
+    <text x="110" y="70" text-anchor="middle" font-size="11" fill="#94a3b8">Write commit messages</text>
+    <text x="110" y="88" text-anchor="middle" font-size="11" fill="#94a3b8">Refactor legacy code</text>
+    <text x="110" y="106" text-anchor="middle" font-size="11" fill="#94a3b8">Document changes</text>
+    <text x="110" y="122" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"review this PR..."</text>
+  </g>
+
+  <!-- Row 2 - smaller secondary cards -->
+  <g transform="translate(40, 600)">
+    <rect width="220" height="90" rx="10" fill="#1e293b" stroke="#ef4444" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="4" rx="3" fill="url(#redG)"/>
+    <text x="110" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#ef4444">Incident Response</text>
+    <text x="110" y="48" text-anchor="middle" font-size="11" fill="#94a3b8">Diagnose prod issues</text>
+    <text x="110" y="66" text-anchor="middle" font-size="11" fill="#94a3b8">Quick hotfix patches</text>
+    <text x="110" y="82" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"table X has nulls since..."</text>
+  </g>
+
+  <g transform="translate(280, 600)">
+    <rect width="220" height="90" rx="10" fill="#1e293b" stroke="#06b6d4" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="4" rx="3" fill="url(#cyanG)"/>
+    <text x="110" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#06b6d4">Documentation</text>
+    <text x="110" y="48" text-anchor="middle" font-size="11" fill="#94a3b8">Auto-gen data dictionaries</text>
+    <text x="110" y="66" text-anchor="middle" font-size="11" fill="#94a3b8">Explain complex logic</text>
+    <text x="110" y="82" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"document this pipeline..."</text>
+  </g>
+
+  <g transform="translate(520, 600)">
+    <rect width="220" height="90" rx="10" fill="#1e293b" stroke="#a3e635" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="4" rx="3" fill="#a3e635"/>
+    <text x="110" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#a3e635">Infra &amp; DevOps</text>
+    <text x="110" y="48" text-anchor="middle" font-size="11" fill="#94a3b8">Terraform / Docker scripts</text>
+    <text x="110" y="66" text-anchor="middle" font-size="11" fill="#94a3b8">CI/CD pipeline setup</text>
+    <text x="110" y="82" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"set up a GCS bucket..."</text>
+  </g>
+
+  <g transform="translate(760, 600)">
+    <rect width="220" height="90" rx="10" fill="#1e293b" stroke="#ec4899" stroke-width="1.5" filter="url(#shadow)"/>
+    <rect width="220" height="4" rx="3" fill="#ec4899"/>
+    <text x="110" y="26" text-anchor="middle" font-size="14" font-weight="600" fill="#ec4899">Learning &amp; Exploration</text>
+    <text x="110" y="48" text-anchor="middle" font-size="11" fill="#94a3b8">Understand new codebases</text>
+    <text x="110" y="66" text-anchor="middle" font-size="11" fill="#94a3b8">Learn new tools &amp; libs</text>
+    <text x="110" y="82" text-anchor="middle" font-size="10" fill="#475569" font-style="italic">"explain how this works..."</text>
+  </g>
+
+  <!-- Bottom tagline -->
+  <text x="600" y="730" text-anchor="middle" font-size="14" fill="#64748b">Agent = LLM + Memory + Tools + Reasoning Loop</text>
+  <text x="600" y="755" text-anchor="middle" font-size="12" fill="#475569">Not just chat — an autonomous collaborator in your terminal</text>
+
+  <!-- Animated data flow dots -->
+  <circle r="3" fill="#3b82f6">
+    <animateMotion path="M280,165 L370,165" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle r="3" fill="#f59e0b">
+    <animateMotion path="M820,240 L870,240" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+    <animate attributeName="opacity" values="0;1;1;0" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+  </circle>
+</svg>
